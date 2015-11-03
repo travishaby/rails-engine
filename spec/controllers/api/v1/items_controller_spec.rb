@@ -28,7 +28,7 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     end
 
     it "should find all items by first name" do
-      [item1, item2]
+      [item1, item2, item3]
       get :find_all, format: :json, unit_price: 1000
 
       expect(parsed_body.size).to eq(2)
