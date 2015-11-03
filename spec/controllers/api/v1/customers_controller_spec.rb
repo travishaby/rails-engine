@@ -34,6 +34,32 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
 
       expect(response_customer[:id]).to eq(customer.id)
     end
+
+    it "should find all customers by first name" do
+      Customer.create(first_name: "travis", last_name: "haby")
+      Customer.create(first_name: "travis", last_name: "baby")
+
+      get :find_all, format: :json, first_name: "travis"
+
+      customers = JSON.parse(response.body, symbolize_names: true)
+
+      expect(customers.size).to eq(2)
+    end
+
+
+    it "should return a random customer" do
+      cust1 = Customer.create(first_name: "travis", last_name: "haby")
+      cust2 = Customer.create(first_name: "lani", last_name: "young")
+      cust3 = Customer.create(first_name: "bret", last_name: "doucette")
+
+      get :random, format: :json
+
+      customer = JSON.parse(response.body, symbolize_names: true)
+
+      found_customer = Customer.find_by(first_name: customer[:first_name])
+
+      expect(found_customer).to be
+    end
   end
 
 end
