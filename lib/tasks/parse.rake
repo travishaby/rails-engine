@@ -14,7 +14,14 @@ task :parse => :environment do
     end
   end
 
-  models_and_file_paths = {Customer => "customers.csv", Merchant => "merchants.csv", Item => "items.csv", Invoice => "invoices.csv", Transaction => "transactions.csv", InvoiceItem => "invoice_items.csv"}
+  models_and_file_paths = {
+    Customer    => "customers.csv",
+    Merchant    => "merchants.csv",
+    Item        => "items.csv",
+    Invoice     => "invoices.csv",
+    Transaction => "transactions.csv",
+    InvoiceItem => "invoice_items.csv"
+  }
 
   models_and_file_paths.each do |model, file_path|
     create_objects(model, file_path)
