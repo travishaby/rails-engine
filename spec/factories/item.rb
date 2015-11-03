@@ -1,11 +1,8 @@
 FactoryGirl.define do
   factory :item do
     name "Pizza"
-    description FFaker::HipsterIpsum.word(5)
+    description FFaker::HipsterIpsum.sentence(5)
+    unit_price (1..10000).to_a.sample
+    association :merchant, factory: :merchant, name: "Cosmo's"
   end
 end
-
-    t.citext   "name"
-    t.string   "description"
-    t.float    "unit_price"
-    t.integer  "merchant_id"
