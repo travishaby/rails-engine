@@ -7,8 +7,7 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
     let(:cust3) { create(:customer, first_name: "bret") }
 
     it "should display all customers" do
-      create(:customer)
-      create(:customer, first_name: "lani", last_name: "young")
+      [cust1, cust2]
       get :index, format: :json
 
       assert_response :success
@@ -26,16 +25,15 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
 
     it "should find a customer by first name" do
       [cust1, cust2]
-      get :find, format: :json, first_name: "Travis"
+      get :find, format: :json, last_name: "Haby"
       response_customer = JSON.parse(response.body, symbolize_names: true)
 
       expect(response_customer[:id]).to eq(cust1.id)
     end
 
     it "should find all customers by first name" do
-      create(:customer)
-      create(:customer, first_name: "travis", last_name: "baby")
-      get :find_all, format: :json, first_name: "travis"
+      [cust1, cust2]
+      get :find_all, format: :json, last_name: "Haby"
       customers = JSON.parse(response.body, symbolize_names: true)
 
       expect(customers.size).to eq(2)
@@ -55,19 +53,19 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
     it "should return not found for show with nonexistent id" do
       get :show, format: :json, id: 2
 
-      expect(response.status).to eq(404)
+      expect(response.body).to eq("null")
     end
 
     it "should return not found for no customer for find_by" do
       get :find, format: :json, first_name: "Travis"
 
-      expect(response.status).to eq(404)
+      expect(response.body).to eq("null")
     end
 
     it "should return not found for no customer for find_all" do
       get :find_all, format: :json, first_name: "Winnie the Pooh"
 
-      expect(response.status).to eq(404)
+      expect(response.body).to eq("[]")
     end
   end
 end
