@@ -13,6 +13,7 @@ gem "bootstrap-sass"
 gem "omniauth-twitter"
 gem "bootstrap_form"
 gem "hurley"
+gem "responders"
 
 group :development, :test do
   gem "byebug"
@@ -20,16 +21,16 @@ group :development, :test do
   gem "rspec-rails"
   gem "capybara"
   gem "launchy"
-  gem "factory_girl"
-  gem 'better_errors'
-  gem 'binding_of_caller'
-  gem 'selenium-webdriver'
+  gem "factory_girl_rails"
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem "selenium-webdriver"
 end
 
 group :test do
-  gem 'vcr'
-  gem 'webmock'
-  gem 'simplecov', :require => false
+  gem "vcr"
+  gem "webmock"
+  gem "simplecov", :require => false
 end
 
 group :production do
