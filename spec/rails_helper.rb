@@ -9,6 +9,10 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'factory_girl_rails'
 
+def parsed_body
+  JSON.parse(response.body, symbolize_names: true)
+end
+
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
