@@ -55,19 +55,19 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
     it "should return not found for show with nonexistent id" do
       get :show, format: :json, id: 2
 
-      expect(response.status).to eq(404)
+      expect(response.body).to eq("null")
     end
 
     it "should return not found for no customer for find_by" do
       get :find, format: :json, first_name: "Travis"
 
-      expect(response.status).to eq(404)
+      expect(response.body).to eq("null")
     end
 
     it "should return not found for no customer for find_all" do
       get :find_all, format: :json, first_name: "Winnie the Pooh"
 
-      expect(response.status).to eq(404)
+      expect(response.body).to eq("[]")
     end
   end
 end
