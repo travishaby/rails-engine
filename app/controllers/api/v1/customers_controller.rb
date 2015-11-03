@@ -6,10 +6,10 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def show
-    if customer = Customer.find(params[:id])
+    if customer = Customer.find_by(id: params[:id])
       respond_with customer, status: 200
     else
-      respond_with status: 404
+      respond_with nil, status: 404
     end
   end
 
@@ -17,12 +17,17 @@ class Api::V1::CustomersController < ApplicationController
     if customer = Customer.find_by(find_customer_params)
       respond_with customer, status: 200
     else
-      respond_with status: 404
+      respond_with customer, status: 404
     end
   end
 
   def find_all
-    respond_with Customer.where(find_customer_params)
+    customers = Customer.where(find_customer_params)
+    if !customers.empty?
+      respond_with customers, status: 200
+    else
+      respond_with nil, status: 404
+    end
   end
 
   def random
