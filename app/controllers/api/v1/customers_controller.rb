@@ -6,15 +6,28 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def show
-    respond_with Customer.find(params[:id])
+    if customer = Customer.find_by(id: params[:id])
+      respond_with customer, status: 200
+    else
+      respond_with nil, status: 404
+    end
   end
 
   def find
-    respond_with Customer.find_by(customer_params)
+    if customer = Customer.find_by(find_customer_params)
+      respond_with customer, status: 200
+    else
+      respond_with customer, status: 404
+    end
   end
 
   def find_all
-    respond_with Customer.where(customer_params)
+    customers = Customer.where(find_customer_params)
+    if !customers.empty?
+      respond_with customers, status: 200
+    else
+      respond_with nil, status: 404
+    end
   end
 
   def random
@@ -23,7 +36,7 @@ class Api::V1::CustomersController < ApplicationController
 
   private
 
-  def customer_params
+  def find_customer_params
     params.permit(:first_name, :last_name)
   end
 end
