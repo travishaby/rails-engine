@@ -7,8 +7,7 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
     let(:cust3) { create(:customer, first_name: "bret") }
 
     it "should display all customers" do
-      create(:customer)
-      create(:customer, first_name: "lani", last_name: "young")
+      [cust1, cust2]
       get :index, format: :json
 
       assert_response :success
@@ -26,16 +25,15 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
 
     it "should find a customer by first name" do
       [cust1, cust2]
-      get :find, format: :json, first_name: "Travis"
+      get :find, format: :json, last_name: "Haby"
       response_customer = JSON.parse(response.body, symbolize_names: true)
 
       expect(response_customer[:id]).to eq(cust1.id)
     end
 
     it "should find all customers by first name" do
-      create(:customer)
-      create(:customer, first_name: "travis", last_name: "baby")
-      get :find_all, format: :json, first_name: "travis"
+      [cust1, cust2]
+      get :find_all, format: :json, last_name: "Haby"
       customers = JSON.parse(response.body, symbolize_names: true)
 
       expect(customers.size).to eq(2)
