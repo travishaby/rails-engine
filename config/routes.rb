@@ -22,6 +22,16 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :invoices, only: [:show] do
+        member do
+          get "items"
+          get "invoice_items"
+          get "transactions"
+          get "customer"
+          get "merchant"
+        end
+      end
+
     end
   end
 end
