@@ -28,7 +28,8 @@ class Api::V1::TransactionsController < ApplicationController
   private
 
   def find_transaction_params
-    params.permit(:invoice_id,
+    params.permit(:id,
+                  :invoice_id,
                   :credit_card_number,
                   :credit_card_expiration_date,
                   :result)
