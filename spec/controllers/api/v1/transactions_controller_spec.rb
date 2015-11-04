@@ -66,4 +66,15 @@ RSpec.describe Api::V1::TransactionsController, type: :controller do
       expect(response.body).to eq("[]")
     end
   end
+
+  context "happy paths for invoices controller relationship routes" do
+    let!(:transaction1) { create(:transaction, invoice_id: invoice1.id) }
+    let!(:invoice1) { create(:invoice) }
+
+    it "should display transaction for an invoice" do
+      get :invoice, format: :json, id: transaction1.id
+
+      expect(parsed_body[:id]).to eq(invoice1.id)
+    end
+  end
 end

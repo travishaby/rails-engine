@@ -46,6 +46,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :transactions, only: [:show] do
+        member do
+          get "invoice"
+        end
+      end
+
     end
   end
 end
