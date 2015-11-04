@@ -44,7 +44,10 @@ class Api::V1::InvoicesController < ApplicationController
   private
 
   def find_invoice_params
-    params.permit(:customer_id, :merchant_id, :status)
+    params.permit(:id,
+                  :customer_id,
+                  :merchant_id,
+                  :status)
   end
 
   def find_invoice
