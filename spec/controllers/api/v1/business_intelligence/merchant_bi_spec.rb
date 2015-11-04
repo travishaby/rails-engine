@@ -11,7 +11,9 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
                            name: "Spicy Ranch",
                     merchant_id: merch1.id) }
     let!(:invoice1) { create(:invoice, merchant_id: merch1.id) }
-    let!(:invoice2) { create(:invoice, merchant_id: merch1.id) }
+    let!(:invoice2) { create(:invoice,
+                         merchant_id: merch1.id,
+                          created_at: "2012-03-16 11:55:05") }
     let!(:invoice3) { create(:invoice, merchant_id: merch1.id) }
     let!(:invoice_item_1) { create(:invoice_item,
                                       invoice_id: invoice1.id,
@@ -22,8 +24,7 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
                                       invoice_id: invoice2.id,
                                          item_id: item2.id,
                                         quantity: 4,
-                                      unit_price: 2000,
-                                      created_at: "2012-03-16 11:55:05") }
+                                      unit_price: 2000) }
     let!(:invoice_item_3) { create(:invoice_item,
                                       invoice_id: invoice3.id,
                                          item_id: item2.id,
@@ -45,7 +46,7 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
     it "should display total revenue for a single merchant on a given day" do
       get :revenue, format: :json,
                         id: merch1.id,
-                      date: invoice_item_2.created_at
+                      date: invoice2.created_at
 
       expect(parsed_body[:revenue]).to eq("80.0")
     end
