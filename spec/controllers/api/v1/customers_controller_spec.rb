@@ -68,4 +68,28 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
       expect(response.body).to eq("[]")
     end
   end
+
+  context "happy paths for customers controller relationship routes" do
+    let!(:cust1) { create(:customer) }
+    let!(:invoice1) { create(:invoice,
+                         customer_id: cust1.id) }
+    let!(:invoice2) { create(:invoice,
+                         customer_id: cust1.id) }
+    let!(:transaction1) { create(:transaction, invoice_id: invoice1.id) }
+    let!(:transaction2) { create(:transaction, invoice_id: invoice2.id) }
+    let!(:transaction3) { create(:transaction) } #shouldn't be connected
+
+    it "should display all invoices for a customer" do
+      get :invoices, format: :json, id: cust1.id
+
+      expect(parsed_body.size).to eq(2)
+    end
+
+
+    it "should display all transactions for a customer" do
+      get :transactions, format: :json, id: cust1.id
+
+      expect(parsed_body.size).to eq(2)
+    end
+  end
 end

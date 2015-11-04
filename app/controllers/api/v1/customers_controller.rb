@@ -21,9 +21,21 @@ class Api::V1::CustomersController < ApplicationController
     respond_with Customer.order("RANDOM()").first
   end
 
+  def invoices
+    respond_with find_customer.invoices
+  end
+
+  def transactions
+    respond_with find_customer.transactions
+  end
+
   private
 
   def find_customer_params
     params.permit(:first_name, :last_name)
+  end
+
+  def find_customer
+    Customer.find_by(id: params[:id])
   end
 end
