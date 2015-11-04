@@ -2,15 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
   context "happy paths for invoice_items controller" do
-    let(:invoice_item1) { create(:invoice_item) }
-    let(:invoice_item2) { create(:invoice_item,
-                                       item_id: invoice_item1.item_id) }
-    let(:invoice_item3) { create(:invoice_item,
+    let!(:invoice_item1) { create(:invoice_item,
+                                     unit_price: 1000) }
+    let!(:invoice_item2) { create(:invoice_item,
                                        item_id: invoice_item1.item_id,
-                                    invoice_id: invoice_item1.invoice_id) }
+                                    unit_price: 1000) }
+    let!(:invoice_item3) { create(:invoice_item,
+                                       item_id: invoice_item1.item_id,
+                                    invoice_id: invoice_item1.invoice_id,
+                                    unit_price: 1000) }
 
     it "should display all invoice_items" do
-      [invoice_item1, invoice_item2, invoice_item3]
       get :index, format: :json
 
       assert_response :success
@@ -23,22 +25,20 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
       expect(parsed_body[:item_id]).to eq(invoice_item2.item_id)
     end
 
-    it "should find a invoice_item by customer_id" do
-      [invoice_item1, invoice_item2]
-      get :find, format: :json, invoice_id: invoice_item1.invoice_id
+    it "should find a invoice_item by unit_price" do
+      #mimicing the spec harness' query format
+      get :find, format: :json, unit_price: (invoice_item1.unit_price).to_s
 
       expect(parsed_body[:invoice_id]).to eq(invoice_item1.invoice_id)
     end
 
-    it "should find all invoice_items by merchant_id" do
-      [invoice_item1, invoice_item2, invoice_item3]
+    it "should find all invoice_items by item_id" do
       get :find_all, format: :json, item_id: invoice_item1.item_id
 
       expect(parsed_body.size).to eq(3)
     end
 
     it "should return a random invoice_item" do
-      [invoice_item1, invoice_item2, invoice_item3]
       get :random, format: :json
       found_invoice_item = InvoiceItem.find_by(id: parsed_body[:id])
 
@@ -54,13 +54,13 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
     end
 
     it "should return not found for no invoice_item for find_by" do
-      get :find, format: :json, merchant_id: "pizza"
+      get :find, format: :json, merchant_id: 1
 
       expect(response.body).to eq("null")
     end
 
     it "should return not found for no invoice_item for find_all" do
-      get :find_all, format: :json, customer_id: "Winnie the Pooh"
+      get :find_all, format: :json, customer_id: 2
 
       expect(response.body).to eq("[]")
     end
