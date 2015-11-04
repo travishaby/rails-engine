@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
   context "happy paths for invoice_items controller" do
-    let(:invoice_item_item1) { create(:invoice_item_item) }
+    let(:invoice_item1) { create(:invoice_item) }
     let(:invoice_item2) { create(:invoice_item,
                                        item_id: invoice_item1.item_id) }
     let(:invoice_item3) { create(:invoice_item,
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
 
     it "should find a invoice_item by customer_id" do
       [invoice_item1, invoice_item2]
-      get :find, format: :json, invoice_id: invoice_item1.customer_id
+      get :find, format: :json, invoice_id: invoice_item1.invoice_id
 
       expect(parsed_body[:invoice_id]).to eq(invoice_item1.invoice_id)
     end
