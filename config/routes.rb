@@ -15,6 +15,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :merchants, only: [:show] do
+        member do
+          get "items"
+          get "invoices"
+        end
+      end
 
     end
   end
