@@ -6,7 +6,7 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def show
-    respond_with Customer.find_by(id: params[:id])
+    respond_with find_customer
   end
 
   def find
@@ -27,6 +27,10 @@ class Api::V1::CustomersController < ApplicationController
 
   def transactions
     respond_with find_customer.transactions
+  end
+
+  def favorite_merchant
+    respond_with find_customer.favorite_merchant
   end
 
   private
