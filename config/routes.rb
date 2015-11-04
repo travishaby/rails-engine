@@ -32,6 +32,13 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :invoice_items, only: [:show] do
+        member do
+          get "item"
+          get "invoice"
+        end
+      end
+
     end
   end
 end

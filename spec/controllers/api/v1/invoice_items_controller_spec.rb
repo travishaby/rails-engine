@@ -65,4 +65,27 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
       expect(response.body).to eq("[]")
     end
   end
+
+  context "happy paths for invoices controller relationship routes" do
+    let!(:invoice_item1) { create(:invoice_item,
+                                 item_id: item1.id,
+                              invoice_id: invoice1.id) }
+    let!(:invoice1) { create(:invoice) }
+    let!(:item1) { create(:item)}
+
+    let!(:invoice2) { create(:invoice) }
+    let!(:item2) { create(:item, name: "Not included") }
+
+    it "should display the associated item for an invoice item" do
+      get :item, format: :json, id: invoice_item1.id
+
+      expect(parsed_body[:id]).to eq(item1.id)
+    end
+
+    it "should display the associated invoice for an invoice item" do
+      get :invoice, format: :json, id: invoice_item1.id
+
+      expect(parsed_body[:id]).to eq(invoice1.id)
+    end
+  end
 end
