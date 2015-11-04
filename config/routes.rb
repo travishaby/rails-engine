@@ -6,6 +6,7 @@ Rails.application.routes.draw do
                 :items,
                 :invoices,
                 :invoice_items,
+                :transactions,
       only: [:index, :show] do
         collection do
           get 'find'

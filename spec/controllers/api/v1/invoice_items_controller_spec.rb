@@ -9,7 +9,7 @@ RSpec.describe Api::V1::InvoiceItemsController, type: :controller do
                                        item_id: invoice_item1.item_id,
                                     invoice_id: invoice_item1.invoice_id) }
 
-    it "should display all invoices" do
+    it "should display all invoice_items" do
       [invoice_item1, invoice_item2, invoice_item3]
       get :index, format: :json
 
