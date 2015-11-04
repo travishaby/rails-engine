@@ -79,16 +79,6 @@ RSpec.describe Api::V1::InvoicesController, type: :controller do
     let!(:item1) { create(:item)}
     let!(:transaction1) { create(:transaction, invoice_id: invoice1.id) }
 
-    let!(:invoice2) { create(:invoice,
-                         customer_id: cust1.id,
-                         merchant_id: merch1.id) }
-    let!(:item2) { create(:item, name: "Not included") }
-    let!(:transaction2) { create(:transaction, invoice_id: invoice2.id) }
-    let!(:cust2) { create(:customer,
-                        first_name: "Not included") }
-    let!(:merch2) { create(:merchant,
-                               name: "Not included either") }
-
     it "should display all items for an invoice" do
       get :items, format: :json, id: invoice1.id
 
@@ -111,14 +101,12 @@ RSpec.describe Api::V1::InvoicesController, type: :controller do
       get :customer, format: :json, id: invoice1.id
 
       expect(parsed_body[:first_name]).to eq("Travis")
-      expect(parsed_body[:first_name]).to_not eq("Not included")
     end
 
     it "should display the customer associated with an invoice" do
       get :merchant, format: :json, id: invoice1.id
 
       expect(parsed_body[:name]).to eq("Cosmo's")
-      expect(parsed_body[:name]).to_not eq("Not included either")
     end
   end
 end

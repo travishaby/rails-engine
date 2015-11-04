@@ -52,6 +52,13 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :customers, only: [:show] do
+        member do
+          get "invoices"
+          get "transactions"
+        end
+      end
+
     end
   end
 end
