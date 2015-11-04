@@ -6,7 +6,7 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def show
-    respond_with Merchant.find_by(id: params[:id])
+    respond_with find_merchant
   end
 
   def find
@@ -30,7 +30,7 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def revenue
-    respond_with revenue: find_merchant.revenue.to_s
+    respond_with revenue: find_merchant.revenue(find_merchant_params[:date]).to_s
   end
 
   private
@@ -43,6 +43,7 @@ class Api::V1::MerchantsController < ApplicationController
     params.permit(:id,
                   :name,
                   :created_at,
-                  :updated_at)
+                  :updated_at,
+                  :date)
   end
 end
