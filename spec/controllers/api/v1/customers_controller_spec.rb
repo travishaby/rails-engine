@@ -2,48 +2,37 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::CustomersController, type: :controller do
   context "happy paths for customers controller" do
-    let(:cust1) { create(:customer) }
-    let(:cust2) { create(:customer, first_name: "lani") }
-    let(:cust3) { create(:customer, first_name: "bret") }
+    let!(:cust1) { create(:customer) }
+    let!(:cust2) { create(:customer, first_name: "lani") }
+    let!(:cust3) { create(:customer, first_name: "bret") }
 
     it "should display all customers" do
-      [cust1, cust2]
       get :index, format: :json
 
-      assert_response :success
-
-      customers = JSON.parse(response.body)
-      expect(customers.size).to eq(2)
+      expect(parsed_body.size).to eq(3)
     end
 
     it "should display a single customer" do
       get :show, format: :json, id: cust1.id
-      response_customer = JSON.parse(response.body, symbolize_names: true)
 
-      expect(response_customer[:last_name]).to eq("Haby")
+      expect(parsed_body[:last_name]).to eq("Haby")
     end
 
     it "should find a customer by first name" do
-      [cust1, cust2]
       get :find, format: :json, last_name: "Haby"
-      response_customer = JSON.parse(response.body, symbolize_names: true)
 
-      expect(response_customer[:id]).to eq(cust1.id)
+      expect(parsed_body[:id]).to eq(cust1.id)
     end
 
     it "should find all customers by first name" do
-      [cust1, cust2]
       get :find_all, format: :json, last_name: "Haby"
-      customers = JSON.parse(response.body, symbolize_names: true)
 
-      expect(customers.size).to eq(2)
+      expect(parsed_body.size).to eq(3)
     end
 
     it "should return a random customer" do
-      [cust1, cust2, cust3]
       get :random, format: :json
-      customer = JSON.parse(response.body, symbolize_names: true)
-      found_customer = Customer.find_by(first_name: customer[:first_name])
+      found_customer = Customer.find_by(first_name: parsed_body[:first_name])
 
       expect(found_customer).to be
     end
