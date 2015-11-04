@@ -68,30 +68,57 @@ RSpec.describe Api::V1::InvoicesController, type: :controller do
   end
 
   context "happy paths for invoices controller relationship routes" do
-    let(:invoice1) { create(:invoice,
+    let!(:invoice1) { create(:invoice,
                          customer_id: cust1.id,
                          merchant_id: merch1.id) }
-    let(:cust1) { create(:customer) }
-    let(:merch1) { create(:merchant) }
-    let(:invoice_item1) { create(:invoice_item,
+    let!(:cust1) { create(:customer) }
+    let!(:merch1) { create(:merchant) }
+    let!(:invoice_item1) { create(:invoice_item,
                                  item_id: item1.id,
                               invoice_id: invoice1.id) }
-    let(:item1) {create(:item)}
-    let(:item2) {create(:item, name: "Not included")}
-    let(:cust2) { create(:customer,
+    let!(:item1) { create(:item)}
+    let!(:transaction1) { create(:transaction, invoice_id: invoice1.id) }
+
+    let!(:invoice2) { create(:invoice,
+                         customer_id: cust1.id,
+                         merchant_id: merch1.id) }
+    let!(:item2) { create(:item, name: "Not included") }
+    let!(:transaction2) { create(:transaction, invoice_id: invoice2.id) }
+    let!(:cust2) { create(:customer,
                         first_name: "Not included") }
-    let(:merch2) { create(:merchant,
+    let!(:merch2) { create(:merchant,
                                name: "Not included either") }
 
     it "should display all items for an invoice" do
-      [invoice1, cust1, merch2, invoice_item1, item1, cust2, merch2]
       get :items, format: :json, id: invoice1.id
 
-      expect(parsed_body.size).to eq(0)
+      expect(parsed_body.size).to eq(1)
     end
 
     it "should display all invoice items for an invoice" do
-      get :items, format: :json, id: invoice1.id
+      get :invoice_items, format: :json, id: invoice1.id
+
+      expect(parsed_body.size).to eq(1)
+    end
+
+    it "should display all transactions for an invoice" do
+      get :transactions, format: :json, id: invoice1.id
+
+      expect(parsed_body.size).to eq(1)
+    end
+
+    it "should display the customer associated with an invoice" do
+      get :customer, format: :json, id: invoice1.id
+
+      expect(parsed_body[:first_name]).to eq("Travis")
+      expect(parsed_body[:first_name]).to_not eq("Not included")
+    end
+
+    it "should display the customer associated with an invoice" do
+      get :merchant, format: :json, id: invoice1.id
+
+      expect(parsed_body[:name]).to eq("Cosmo's")
+      expect(parsed_body[:name]).to_not eq("Not included either")
     end
   end
 end
