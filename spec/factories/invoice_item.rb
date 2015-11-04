@@ -3,6 +3,6 @@ FactoryGirl.define do
     item
     invoice
     quantity (1..10).to_a.sample
-    item.unit_price
+    unit_price (1..10000).to_a.sample
   end
 end

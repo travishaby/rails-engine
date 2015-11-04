@@ -5,6 +5,7 @@ Rails.application.routes.draw do
                 :merchants,
                 :items,
                 :invoices,
+                :invoice_items,
       only: [:index, :show] do
         collection do
           get 'find'
@@ -13,7 +14,7 @@ Rails.application.routes.draw do
         end
       end
 
-      
+
     end
   end
 end
