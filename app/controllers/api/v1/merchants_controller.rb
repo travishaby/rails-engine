@@ -29,6 +29,12 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with find_merchant.invoices
   end
 
+  def revenue
+    revenue = find_merchant.successful_invoices
+    merchant_revenue = {revenue: revenue}
+    respond_with merchant_revenue
+  end
+
   private
 
   def find_merchant
