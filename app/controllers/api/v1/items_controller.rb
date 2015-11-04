@@ -32,14 +32,21 @@ class Api::V1::ItemsController < ApplicationController
   private
 
   def find_item_params
+    modify_unit_price
     params.permit(:id,
                   :name,
                   :description,
                   :unit_price,
-                  :merchant_id)
+                  :merchant_id,
+                  :created_at,
+                  :updated_at)
   end
 
   def find_item
     Item.find_by(id: params[:id])
+  end
+
+  def modify_unit_price
+    params[:unit_price] = params[:unit_price].to_f if params[:unit_price]
   end
 end

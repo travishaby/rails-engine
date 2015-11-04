@@ -36,10 +36,17 @@ class Api::V1::InvoiceItemsController < ApplicationController
   end
 
   def find_invoice_item_params
+    modify_unit_price
     params.permit(:id,
                   :item_id,
                   :invoice_id,
                   :quantity,
-                  :unit_price)
+                  :unit_price,
+                  :created_at,
+                  :updated_at)
+  end
+
+  def modify_unit_price
+    params[:unit_price] = params[:unit_price].to_f if params[:unit_price]
   end
 end
