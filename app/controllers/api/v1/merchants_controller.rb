@@ -30,7 +30,12 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def revenue
-    respond_with revenue: find_merchant.revenue(find_merchant_params[:date]).to_s
+    respond_with revenue: find_merchant.
+                            revenue(find_merchant_params[:date]).to_s
+  end
+
+  def favorite_customer
+    respond_with id: find_merchant.favorite_customer
   end
 
   private
