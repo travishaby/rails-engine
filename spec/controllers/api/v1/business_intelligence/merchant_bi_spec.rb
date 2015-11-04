@@ -21,14 +21,15 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
     let!(:invoice_item_2) { create(:invoice_item,
                                       invoice_id: invoice2.id,
                                          item_id: item2.id,
-                                        quantity: 5,
+                                        quantity: 4,
                                       unit_price: 2000) }
     let!(:invoice_item_3) { create(:invoice_item,
                                       invoice_id: invoice3.id,
                                          item_id: item2.id,
                                       unit_price: 2000) }
     let!(:transaction1) { create(:transaction, invoice_id: invoice1.id) }
-    let!(:transaction2) { create(:transaction,
+    let!(:transaction2) { create(:transaction, invoice_id: invoice2.id) }
+    let!(:transaction3) { create(:transaction,
                                    invoice_id: invoice3.id,
                                        result: "failed") }
 
@@ -37,9 +38,8 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
     it "should display total revenue for a single merchant" do
       get :revenue, format: :json, id: merch1.id
 
-      expect(parsed_body[:revenue].first[:id]).to eq(invoice1.id)
 
-      expect(parsed_body[:revenue]).to eq("100.0")
+      expect(parsed_body[:revenue]).to eq("180.0")
     end
   end
 
