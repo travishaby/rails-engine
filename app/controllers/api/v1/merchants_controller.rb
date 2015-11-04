@@ -21,6 +21,14 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.order("RANDOM()").first
   end
 
+  def items
+    respond_with Merchant.find_by(id: params[:id]).items
+  end
+
+  def invoices
+    respond_with Merchant.find_by(id: params[:id]).invoices
+  end
+
   private
 
   def find_merchant_params
