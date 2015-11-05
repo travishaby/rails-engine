@@ -12,15 +12,18 @@ Rails.application.routes.draw do
           get 'find'
           get 'find_all'
           get 'random'
+          get 'most_revenue'
+          get 'most_items'
         end
       end
 
-      resources :merchants, only: [:show] do
+      resources :merchants, only: [:index, :show] do
         member do
           get "items"
           get "invoices"
           get "revenue"
           get "favorite_customer"
+          get "customers_with_pending_invoices"
         end
       end
 
@@ -45,6 +48,7 @@ Rails.application.routes.draw do
         member do
           get "invoice_items"
           get "merchant"
+          get "most_revenue"
         end
       end
 
