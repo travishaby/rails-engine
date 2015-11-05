@@ -4,6 +4,14 @@ class Merchant < ActiveRecord::Base
   has_many :invoice_items, through: :invoices
   has_many :customers, through: :invoices
 
+  def self.most_revenue(quantity)
+    select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue")
+    .joins(:invoice_items)
+    .group("merchants.id")
+    .order("revenue DESC")
+    .first(quantity.to_i)
+  end
+
   def revenue(date = nil)
     if date
       invoice_items.joins(:invoice)
@@ -27,5 +35,12 @@ class Merchant < ActiveRecord::Base
             .group("customers.id")
             .order("inv_count DESC")
             .first.id
+  end
+
+  def customers_with_pending_invoices
+    result = customers
+             .joins(invoices: :transactions)
+             .where(transactions: { result: "failed"  })
+             .uniq.size
   end
 end

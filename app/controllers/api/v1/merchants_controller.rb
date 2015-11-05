@@ -5,6 +5,10 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.all
   end
 
+  def most_revenue
+    respond_with Merchant.most_revenue(find_merchant_params[:quantity])
+  end
+
   def show
     respond_with find_merchant
   end
@@ -38,6 +42,10 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with id: find_merchant.favorite_customer
   end
 
+  def customers_with_pending_invoices
+    respond_with find_merchant.customers_with_pending_invoices
+  end
+
   private
 
   def find_merchant
@@ -49,6 +57,7 @@ class Api::V1::MerchantsController < ApplicationController
                   :name,
                   :created_at,
                   :updated_at,
-                  :date)
+                  :date,
+                  :quantity)
   end
 end

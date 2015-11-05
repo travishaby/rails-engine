@@ -29,6 +29,10 @@ class Api::V1::ItemsController < ApplicationController
     respond_with find_item.merchant
   end
 
+  def most_revenue
+    respond_with Item.most_revenue(find_item_params[:quantity])
+  end
+
   private
 
   def find_item_params
@@ -39,7 +43,8 @@ class Api::V1::ItemsController < ApplicationController
                   :unit_price,
                   :merchant_id,
                   :created_at,
-                  :updated_at)
+                  :updated_at,
+                  :quantity)
   end
 
   def find_item

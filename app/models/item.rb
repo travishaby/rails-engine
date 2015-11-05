@@ -10,4 +10,10 @@ class Item < ActiveRecord::Base
   def convert_unit_price
     self.unit_price = self.unit_price/100
   end
+
+  def self.most_revenue(quantity)
+    invoices
+            .successful
+            .includes(:transactions, :invoices, :invoice_items)
+  end
 end
