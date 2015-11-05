@@ -58,13 +58,23 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
       expect(parsed_body[:revenue]).to eq("80.0")
     end
 
-
     it "should display favorite customer for a single merchant" do
       get :favorite_customer, format: :json,
                                   id: merch1.id
 
       expect(parsed_body[:id]).to eq(cust1.id)
     end
-  end
 
+    it "should display x merchants with most revenue" do
+      get :most_revenue, format: :json, quantity: "1"
+
+      expect(parsed_body.first[:name]).to eq("Cosmo's")
+    end
+
+    it "should display x merchants with most items" do
+      get :most_items, format: :json, quantity: "1"
+
+      expect(parsed_body.first[:name]).to eq("Cosmo's")
+    end
+  end
 end
