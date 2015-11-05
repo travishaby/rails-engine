@@ -25,8 +25,8 @@ RSpec.describe Merchant, type: :model do
     let!(:invoice_item2) { create(:invoice_item,
                                  item_id: item2.id,
                               invoice_id: invoice2.id,
-                                quantity: 5,
-                              unit_price: 100.0) }
+                                quantity: 15,
+                              unit_price: 10.0) }
     let!(:item1) { create(:item)}
     let!(:item2) { create(:item, name: "other item")}
     let!(:transaction1) { create(:transaction, invoice_id: invoice1.id) }
@@ -36,6 +36,12 @@ RSpec.describe Merchant, type: :model do
       merchants = Merchant.most_revenue(1)
       expect(merchants.size).to eq(1)
       expect(merchants.first).to eq(merch1)
+    end
+
+    it "returns most items for given number of merchants" do
+      merchants = Merchant.most_items(1)
+      expect(merchants.size).to eq(1)
+      expect(merchants.first).to eq(merch2)
     end
   end
 end
