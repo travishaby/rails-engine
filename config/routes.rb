@@ -1,21 +1,6 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :customers,
-                :merchants,
-                :items,
-                :invoices,
-                :invoice_items,
-                :transactions,
-      only: [:index, :show] do
-        collection do
-          get 'find'
-          get 'find_all'
-          get 'random'
-          get 'most_revenue'
-          get 'most_items'
-        end
-      end
 
       resources :merchants, only: [:index, :show] do
         member do
@@ -25,9 +10,16 @@ Rails.application.routes.draw do
           get "favorite_customer"
           get "customers_with_pending_invoices"
         end
+        collection do
+          get 'find'
+          get 'find_all'
+          get 'random'
+          get 'most_revenue'
+          get 'most_items'
+        end
       end
 
-      resources :invoices, only: [:show] do
+      resources :invoices, only: [:index, :show] do
         member do
           get "items"
           get "invoice_items"
@@ -35,34 +27,59 @@ Rails.application.routes.draw do
           get "customer"
           get "merchant"
         end
+        collection do
+          get 'find'
+          get 'find_all'
+          get 'random'
+        end
       end
 
-      resources :invoice_items, only: [:show] do
+      resources :invoice_items, only: [:index, :show] do
         member do
           get "item"
           get "invoice"
         end
+        collection do
+          get 'find'
+          get 'find_all'
+          get 'random'
+        end
       end
 
-      resources :items, only: [:show] do
+      resources :items, only: [:index, :show] do
         member do
           get "invoice_items"
           get "merchant"
           get "most_revenue"
         end
-      end
-
-      resources :transactions, only: [:show] do
-        member do
-          get "invoice"
+        collection do
+          get 'find'
+          get 'find_all'
+          get 'random'
         end
       end
 
-      resources :customers, only: [:show] do
+      resources :transactions, only: [:index, :show] do
+        member do
+          get "invoice"
+        end
+        collection do
+          get 'find'
+          get 'find_all'
+          get 'random'
+        end
+      end
+
+      resources :customers, only: [:index, :show] do
         member do
           get "invoices"
           get "transactions"
           get "favorite_merchant"
+        end
+        collection do
+          get 'find'
+          get 'find_all'
+          get 'random'
         end
       end
 
