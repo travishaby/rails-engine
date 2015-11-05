@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Api::V1::CustomersController, type: :controller do
 
   context "customer business intelligence routes" do
-    let!(:cust1) { create(:customer, name: "lani") }
+    let!(:cust1) { create(:customer, first_name: "lani") }
     let!(:merch1) { create(:merchant) }
     let!(:merch2) { create(:merchant) }
     let!(:item1) { create(:item,
