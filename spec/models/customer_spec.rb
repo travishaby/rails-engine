@@ -8,6 +8,7 @@ RSpec.describe Customer, type: :model do
       expect(customer).to be_valid
     end
 
+    # merch1 has two invoices, should return as favorite for cust1
     let!(:cust1) { create(:customer) }
     let!(:merch1) { create(:merchant) }
     let!(:merch2) { create(:merchant, name: "other merchant") }
@@ -25,7 +26,6 @@ RSpec.describe Customer, type: :model do
     let!(:transaction3) { create(:transaction, invoice_id: invoice3.id) }
 
     it "returns favorite merchant" do
-      # merch1 has two invoices, should return as favorite for cust1
       expect(cust1.favorite_merchant.id).to eq(merch1.id)
     end
   end
