@@ -24,9 +24,9 @@ RSpec.describe Api::V1::InvoicesController, type: :controller do
     end
 
     it "should find a invoice by customer_id" do
-      get :find, format: :json, customer_id: invoice1.customer_id
+      get :find, format: :json, customer_id: invoice2.customer_id
 
-      expect(parsed_body[:id]).to eq(invoice3.id)
+      expect(parsed_body[:id]).to eq(invoice2.id)
     end
 
     it "should find all invoices by merchant_id" do

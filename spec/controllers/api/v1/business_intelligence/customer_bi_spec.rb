@@ -20,8 +20,7 @@ RSpec.describe Api::V1::CustomersController, type: :controller do
                           created_at: "2012-03-16 11:55:05",
                          customer_id: cust1.id) }
     let!(:invoice3) { create(:invoice,
-                          merchant_id: merch1.id,
-                          customer_id: cust2.id) }
+                          merchant_id: merch1.id) }
     let!(:invoice_item_1) { create(:invoice_item,
                                       invoice_id: invoice1.id,
                                          item_id: item1.id,
