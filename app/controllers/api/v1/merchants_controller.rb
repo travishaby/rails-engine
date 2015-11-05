@@ -29,6 +29,10 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with find_merchant.invoices
   end
 
+  def total_revenue
+    respond_with total_revenue: Merchant.total_revenue(find_merchant_params[:date])
+  end
+
   def most_revenue
     respond_with Merchant.most_revenue(find_merchant_params[:quantity])
   end
