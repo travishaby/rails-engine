@@ -3,6 +3,7 @@ class Merchant < ActiveRecord::Base
   has_many :invoices
   has_many :invoice_items, through: :invoices
   has_many :customers, through: :invoices
+  has_many :transactions, through: :invoices
 
   def self.most_revenue(quantity)
     select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue")
@@ -17,6 +18,7 @@ class Merchant < ActiveRecord::Base
       .joins(:invoice_items)
       .group("merchants.id")
       .order("item_count DESC")
+      .includes(:invoices, :transactions)
       .merge(InvoiceItem.successful)
       .first(quantity.to_i)
   end
