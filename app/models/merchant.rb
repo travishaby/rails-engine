@@ -5,6 +5,12 @@ class Merchant < ActiveRecord::Base
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
 
+  def self.total_revenue(date)
+    joins(invoice_items: :invoice)
+      .where(invoices: { created_at: date })
+      .sum("quantity * unit_price").to_s
+  end
+
   def self.most_revenue(quantity)
     select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) as revenue")
       .joins(:invoice_items)
